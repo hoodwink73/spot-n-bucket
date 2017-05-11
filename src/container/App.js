@@ -7,6 +7,7 @@ import Sentences from '../components/Sentences';
 import Download from '../components/Download';
 import { each, mapValues, remove } from 'lodash';
 import { parse } from 'papaparse';
+import fileDownload from 'react-file-download';
 
 var dummySentences = [
   [1, 'Anuj works in Freshdesk'],
@@ -155,6 +156,7 @@ class App extends Component {
               getCurrentMode={this.getCurrentMode.bind(this)}
             />
           : null}
+        <Download downloadFile={this.downloadFile.bind(this)} />
       </div>
     );
   }
