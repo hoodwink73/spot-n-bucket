@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { partialRight, bind } from 'lodash';
-
+import config from '../config'
 export default class Word extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +21,7 @@ export default class Word extends Component {
 
   render() {
     var { word, sentenceId, wordClick, getCurrentMode } = this.props;
-    var selectedStyle = this.state.clicked ? { border: `1px dotted red` } : {};
+    var selectedStyle = this.state.clicked ? { fontSize: '25px' } : {};
 
     return (
       <span
@@ -33,7 +33,7 @@ export default class Word extends Component {
           word,
           sentenceId,
           getCurrentMode
-        )}>{` ${word}`}</span>
+        )}>{`${word}`}</span>
     );
   }
 }

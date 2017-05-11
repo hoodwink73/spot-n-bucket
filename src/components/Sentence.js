@@ -14,8 +14,8 @@ export default function Sentence({
   };
 
   return (
-    <div className="row text-left">
-      <h1 className="col-md-12">
+    <div className="row text-left sentence-wrap">
+      <h1 className="col-md-12 sentence">
         {_words.map(function(_word, ind) {
           return (
             <Word

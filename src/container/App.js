@@ -12,7 +12,33 @@ import fileDownload from 'react-file-download';
 var dummySentences = [
   [1, 'Anuj works in Freshdesk'],
   [2, 'Freshdesk is in Chennai'],
-  [3, 'Navneethan also works with Anuj']
+  [3, 'Anuj works in Freshdesk'],
+  [4, 'Freshdesk is in Chennai'],
+  [5, 'Anuj works in Freshdesk'],
+  [6, 'Freshdesk is in Chennai'],
+  [7, 'Anuj works in Freshdesk'],
+  [8, 'Freshdesk is in Chennai'],
+  [9, 'Anuj works in Freshdesk'],
+  [10, 'Freshdesk is in Chennai'],
+  [11, 'Anuj works in Freshdesk'],
+  [12, 'Freshdesk is in Chennai'],
+  [13, 'Anuj works in Freshdesk'],
+  [14, 'Freshdesk is in Chennai'],
+  [15, 'Anuj works in Freshdesk'],
+  [16, 'Freshdesk is in Chennai'],
+  [17, 'Anuj works in Freshdesk'],
+  [18, 'Freshdesk is in Chennai'],
+  [19, 'Anuj works in Freshdesk'],
+  [20, 'Freshdesk is in Chennai'],
+  [21, 'Anuj works in Freshdesk'],
+  [22, 'Freshdesk is in Chennai'],
+  [23, 'Anuj works in Freshdesk'],
+  [24, 'Freshdesk is in Chennai'],
+  [25, 'Anuj works in Freshdesk'],
+  [26, 'Freshdesk is in Chennai'],
+  [27, 'Anuj works in Freshdesk'],
+  [28, 'Freshdesk is in Chennai'],
+  [29, 'Navneethan also works with Anuj']
 ];
 
 class App extends Component {
@@ -139,14 +165,9 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row header">
-          <div className="col-md-2 col-md-offset-3">
+          <h1>Spot-n-Bucket</h1>
+          <div className="input-wrap">
             <input type="file" ref="file" onChange={this.readFile.bind(this)} />
-          </div>
-          <div className="col-md-3 col-md-offset-3">
-            <Modes
-              modes={this.state.modes}
-              updateMode={this.updateMode.bind(this)}
-            />
           </div>
         </div>
         {Object.keys(this.state.data).length > 0
@@ -156,7 +177,16 @@ class App extends Component {
               getCurrentMode={this.getCurrentMode.bind(this)}
             />
           : null}
+        <div className='footer'>
+        <div className="modes">
+          <Modes
+            modes={this.state.modes}
+            updateMode={this.updateMode.bind(this)}
+          />
+        </div>
+
         <Download downloadFile={this.downloadFile.bind(this)} />
+        </div>
       </div>
     );
   }

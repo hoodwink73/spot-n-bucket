@@ -6,7 +6,7 @@ export default function Modes({ modes, updateMode }) {
     <div className="row">
       {map(modes, function(state, name) {
         return (
-          <div className="col-md-3" key={`mode_${name}`}>
+          <div className="mode" key={`mode_${name}`}>
             <input
               id={`mode_${name}`}
               onChange={updateMode}
