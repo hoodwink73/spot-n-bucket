@@ -4,33 +4,10 @@
 span{
   cursor: pointer;
 }
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@import 'bootstrap.css';
-
-
-
-.sentences{
+.sentences-container{
   width: 100%;
-  margin: 20px auto;
+  margin: 300px auto;
   background-color: #FCFCFC;
 }
 .header{
@@ -41,4 +18,17 @@ span{
   min-height: 60px;
   line-height: 60px;
   background-color: #1e88e5;
+}
+
+.word-item {
+  position: relative;
+  font-size: 24px;
+}
+
+.word-item:after {
+  content: attr(data-mode);
+  position: absolute;
+  top: 24px;
+  left: 2px;
+  font-size: 12px;
 }

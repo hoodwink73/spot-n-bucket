@@ -1,94 +1,160 @@
 import React, { Component } from 'react';
 import '../App.css';
-import config from '../config'
-import uuid from 'uuid'
-import Modes from '../components/Modes'
-import Sentences from '../components/Sentences'
-import { each } from 'lodash';
+import config from '../config';
+import uuid from 'uuid';
+import Modes from '../components/Modes';
+import Sentences from '../components/Sentences';
+import Download from '../components/Download';
+import { each, mapValues, remove } from 'lodash';
+import { parse } from 'papaparse';
+
+var dummySentences = [
+  [1, 'Anuj works in Freshdesk'],
+  [2, 'Freshdesk is in Chennai'],
+  [3, 'Navneethan also works with Anuj']
+];
 
 class App extends Component {
   constructor(props) {
-     super(props);
-     let keys = Object.keys(config.buckets);
-     let modes={}
-     keys = keys.map((val)=>{
-      modes[val] = false
-     })
-     let defaultMode = config.defaultMode
-     modes[defaultMode] =true;
-     this.state = {
-        data:{},
-        modes: modes,
-        currentMode:config.defaultMode
+    super(props);
+    let keys = Object.keys(config.buckets);
+    let modes = {};
+
+    keys.map(val => (modes[val] = false));
+
+    let defaultMode = config.defaultMode;
+    modes[defaultMode] = true;
+
+    this.state = {
+      data: this.makeSentencesStateReady(dummySentences),
+      modes: modes
+    };
+  }
+
+  makeSentencesStateReady(sentences) {
+    var data = {};
+    each(sentences, function(sentence) {
+      var [id, text] = sentence;
+      data[id] = {
+        text,
+        ...mapValues(config.buckets, () => [])
       };
-   }
+    });
 
-   componentDidMount() {
-     console.log('start', this.state)
-   }
-
-  updateMode = (evt) => {
-    let modeKey = evt.target.value
-    let oldModes =this.state.modes
-    let oldModeKeys =Object.keys(oldModes)
-    let newModes =oldModes
-    oldModeKeys.map((val)=>{
-      newModes[val] =false
-    })
-    newModes[modeKey] =true
-    this.setState({modes:newModes,currentMode:modeKey})
+    return data;
   }
 
-  updateWords = (word, sentenceId) => {
-    let data = this.state.data
-    let currentMode = this.state.currentMode
-    var sentence = data[sentenceId];
-    data[sentenceId] = {
-      ...sentence,
-      [currentMode]: [...sentence[currentMode], word]
+  getCurrentMode() {
+    var selectedMode;
+    each(this.state.modes, function(bool, mode) {
+      if (bool) {
+        selectedMode = mode;
+        return false;
+      }
+    });
+    return selectedMode || '';
+  }
+
+  updateMode(evt) {
+    let modeKey = evt.target.value;
+    let modes = {};
+
+    each(this.state.modes, function(bool, mode) {
+      modes[mode] = false;
+    });
+
+    this.setState({
+      modes: {
+        ...modes,
+        [modeKey]: true
+      }
+    });
+  }
+
+  updateWords(word, sentenceId, doUnselectWord) {
+    var data = this.state.data;
+    var sentence = Object.assign({}, data[sentenceId]);
+    var currentMode = this.getCurrentMode();
+
+    function calculateIndicesOfWord(sentenceText, word) {
+      return [
+        sentenceText.indexOf(word),
+        sentenceText.indexOf(word) + word.length
+      ];
     }
-    console.log(data)
-    this.setState({data:data});
+
+    if (doUnselectWord) {
+      let remainingWordsAfterUnselection = remove(
+        sentence[currentMode],
+        function(value) {
+          return value === word;
+        }
+      );
+
+      sentence = {
+        ...sentence,
+        [currentMode]: remainingWordsAfterUnselection
+      };
+    } else {
+      sentence = {
+        ...sentence,
+        [currentMode]: [
+          ...sentence[currentMode],
+          {
+            word,
+            indices: calculateIndicesOfWord(sentence.text, word)
+          }
+        ]
+      };
+    }
+
+    this.setState({
+      data: {
+        ...this.state.data,
+        [sentenceId]: sentence
+      }
+    });
   }
 
+  readFile() {
+    var file = this.refs.file.files[0];
+    var makeSentencesStateReady = this.makeSentencesStateReady;
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function(evt) {
+      var sentences = parse(evt.target.result).data;
+      this.setState({
+        data: makeSentencesStateReady(sentences)
+      });
+    }.bind(this);
+  }
 
-  readFile = () =>{
-          var file = this.refs.file.files[0];
-          var reader = new FileReader();
-          reader.readAsText(file);
-          reader.onload = function(evt){
-               var resultText = evt.target.result;
-               var data = {}
+  downloadFile() {
+    var data = JSON.stringify(this.state.data);
+    fileDownload(data, `spot-n-bucket.${uuid.v4()}.json`);
+  }
 
-               each(resultText.split('\n'), function (val) {
-                   data[uuid.v4()] = {
-                      originalSentence: val,
-                      ...config.buckets
-                  }
-                });
-
-               this.setState({
-                data
-              })
-          }.bind(this);
-     }
   render() {
     return (
       <div className="container">
-        <br/>
-        <br/>
-        <br/>
-        <br/>
         <div className="row header">
           <div className="col-md-2 col-md-offset-3">
-          <input type="file" ref="file" onChange={this.readFile} />
+            <input type="file" ref="file" onChange={this.readFile.bind(this)} />
           </div>
           <div className="col-md-3 col-md-offset-3">
-            <Modes modes={this.state.modes} updateMode={this.updateMode}/>
+            <Modes
+              modes={this.state.modes}
+              updateMode={this.updateMode.bind(this)}
+            />
           </div>
         </div>
-        <Sentences sentences={this.state.data} updateWords={this.updateWords}/>
-
+        {Object.keys(this.state.data).length > 0
+          ? <Sentences
+              sentences={this.state.data}
+              updateWords={this.updateWords.bind(this)}
+              getCurrentMode={this.getCurrentMode.bind(this)}
+            />
+          : null}
       </div>
     );
   }

@@ -1,17 +1,17 @@
 const config ={
-defaultMode :'Persons',
+defaultMode :'persons',
 buckets:{
     locations: {
       title: 'Locations',
       color: 'red',
       items: []
     },
-    Organisations: {
+    organisations: {
       title: 'Organisations',
       color: 'yellow',
       items: []
     },
-    Persons:{
+    persons:{
       title: 'Persons',
       color: 'blue',
       items: []

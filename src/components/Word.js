@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
-import {partialRight, bind} from 'lodash';
+import { partialRight, bind } from 'lodash';
 
-export default class Word extends Component  {
-  constructor (props) {
+export default class Word extends Component {
+  constructor(props) {
     super(props);
     this.state = {
-      clicked: false
-    }
+      clicked: false,
+      mode: ''
+    };
   }
 
-  bucketWord (e, proxy, word,sentenceId) {
-    console.log(this.state.clicked);
+  bucketWord(e, proxy, word, sentenceId, getCurrentMode) {
+    var wordState = !this.state.clicked;
     this.setState({
-      clicked: !this.state.clicked
+      clicked: wordState,
+      mode: wordState ? getCurrentMode() : ''
     });
-
-    this.props.wordClick(word,sentenceId);
+    this.props.wordClick(word, sentenceId, !wordState);
   }
 
-  render () {
-    var { word, sentenceId, wordClick } = this.props;
-    var currentModeColor:
-    var selectedStyle = this.state.clicked
-      ? { border: '1px dotted'+ }
-      : {}
+  render() {
+    var { word, sentenceId, wordClick, getCurrentMode } = this.props;
+    var selectedStyle = this.state.clicked ? { border: `1px dotted red` } : {};
 
-    return(
-     <span style={selectedStyle} onClick={partialRight(bind(this.bucketWord, this),  word,sentenceId)}>{` ${word}`}</span>
-    )
+    return (
+      <span
+        className="word-item"
+        style={selectedStyle}
+        data-mode={this.state.mode}
+        onClick={partialRight(
+          bind(this.bucketWord, this),
+          word,
+          sentenceId,
+          getCurrentMode
+        )}>{` ${word}`}</span>
+    );
   }
 }
