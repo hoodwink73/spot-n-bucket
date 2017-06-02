@@ -1,60 +1,64 @@
-import React from 'react';
-import Word from './Word';
-import { each } from 'lodash';
+import React from 'react'
+import Word from './Word'
+import { each } from 'lodash'
 
 import config from '../config'
 
-var {buckets} = config;
+var { buckets } = config
 
 export default function Sentence(props) {
-  var {text, clickatSentences} = props;
-  const _words = text.split(' ');
+	var { text, clickatSentences } = props
 
-  // console.log(props);
+	if (text === undefined || text === null || text === '') {
+		return null
+	}
 
-  const clickatSentence = function(word, sentenceId, doUnselectWord) {
-    clickatSentences(word, sentenceId, doUnselectWord);
-  };
+	const _words = text.split(' ')
 
-  function isWordInBucket (_word, bucket) {
-    var isWordInBucket = false;
-    each(bucket, function ({word}) {
-      console.log(arguments)
-      if  (word === _word) {
-        isWordInBucket = true
-      }
-    })
+	// console.log(props);
 
-    return isWordInBucket;
-  }
+	const clickatSentence = function(word, sentenceId, doUnselectWord) {
+		clickatSentences(word, sentenceId, doUnselectWord)
+	}
 
-  var bucketNames = Object.keys(buckets);
-  return (
-    <div className="row text-left sentence-wrap">
-      <h1 className="col-md-12 sentence">
-        {_words.map(function(_word, ind) {
-          var clicked = false, belongsToBucket = '';
-          each(bucketNames, function (bucketName) {
-            var bucketData = props[bucketName]
-            if (bucketData.length > 0 && isWordInBucket(_word, bucketData)) {
-              clicked = true;
-              belongsToBucket = bucketName
-            }
-          })
+	function isWordInBucket(_word, bucket) {
+		var isWordInBucket = false
+		each(bucket, function({ word }) {
+			console.log(arguments)
+			if (word === _word) {
+				isWordInBucket = true
+			}
+		})
 
+		return isWordInBucket
+	}
 
-          return (
-            <Word
-              clicked={clicked}
-              mode={belongsToBucket}
-              key={ind}
-              word={_word}
-              wordClick={clickatSentence}
-              {...props}
-            />
-          );
-        })}
-      </h1>
-    </div>
-  );
+	var bucketNames = Object.keys(buckets)
+	return (
+		<div className="row text-left sentence-wrap">
+			<h1 className="col-md-12 sentence">
+				{_words.map(function(_word, ind) {
+					var clicked = false, belongsToBucket = ''
+					each(bucketNames, function(bucketName) {
+						var bucketData = props[bucketName]
+						if (bucketData.length > 0 && isWordInBucket(_word, bucketData)) {
+							clicked = true
+							belongsToBucket = bucketName
+						}
+					})
+
+					return (
+						<Word
+							clicked={clicked}
+							mode={belongsToBucket}
+							key={ind}
+							word={_word}
+							wordClick={clickatSentence}
+							{...props}
+						/>
+					)
+				})}
+			</h1>
+		</div>
+	)
 }
