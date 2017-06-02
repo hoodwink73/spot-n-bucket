@@ -4,12 +4,14 @@
   "private": true,
   "dependencies": {
     "downloadbutton": "^1.0.0",
+    "localforage": "^1.5.0",
     "lodash": "^4.17.4",
     "papaparse": "^4.3.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-downloadbutton": "^1.0.0",
     "react-file-download": "^0.3.4",
+    "react-virtualized": "^9.7.5",
     "uuid": "^3.0.1"
   },
   "devDependencies": {
