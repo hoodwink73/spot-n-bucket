@@ -47,7 +47,7 @@ export default function Sentences({ sentences, updateWords, getCurrentMode, onSc
             // autoHeight
             height={height}
             rowCount={Object.keys(sentences).length}
-            rowHeight={50}
+            rowHeight={550}
             rowRenderer={rowRenderer}
             width={width}
             scrollTop={scrollTop}
