@@ -1,159 +1,156 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
-html,body{
-  font-family: 'Dosis', sans-serif;
-  font-weight: 300;
+html,
+body {
+	font-family: 'Dosis', sans-serif;
+	font-weight: 300;
 }
-span{
-  cursor: pointer;
+span {
+	cursor: pointer;
 }
 
-.sentences-container{
-  width: 100%;
-  margin: 300px auto;
-  max-height: 75vh;
-  overflow-y:scroll;
-  background-color: #FCFCFC;
+.sentences-container {
+	width: 100%;
+	margin: 300px auto;
+	max-height: 75vh;
+	overflow-y: scroll;
+	background-color: #fcfcfc;
 }
-*{
-  box-sizing:border-box;
+* {
+	box-sizing: border-box;
 }
-.header{
-  position: absolute;
-  font-family: 'Reenie Beanie', cursive;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-  background-color: #222;
-  padding: 0 100px;
+.header {
+	position: absolute;
+	font-family: 'Reenie Beanie', cursive;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	background-color: #222;
+	padding: 0 100px;
 }
-.input-wrap{
-  float: right;
+.input-wrap {
+	float: right;
 }
 input[type='file'] {
-  background-color: #FFF;
+	background-color: #fff;
 }
-.footer{
-  position: fixed;
-  background: #efefef;
-  bottom: 0;
-  width: 100%;
-  min-height: 100px;
-  left: 0;
-  box-shadow: -2px 0px 3px rgba(0,0,0,.3);
-  text-align: center;
+.footer {
+	position: fixed;
+	background: #efefef;
+	bottom: 0;
+	width: 100%;
+	min-height: 100px;
+	left: 0;
+	box-shadow: -2px 0px 3px rgba(0, 0, 0, .3);
+	text-align: center;
 }
-.modes{
-  position: absolute;
-  width: 450px;
-  left: calc( 50% - 225px);
-  top: 30px;
-  border-radius: 5px;
-  overflow: hidden;
-  background-color: #FBFBFB;
+.modes {
+	position: absolute;
+	width: 450px;
+	left: calc(50% - 225px);
+	top: 30px;
+	border-radius: 5px;
+	overflow: hidden;
+	background-color: #fbfbfb;
 }
-.modes .mode{
-  float: left;
-  min-height: 40px;
-  width: 150px;
-  border:thin solid rgba(0,0,0,0.05);
-  border-collapse: collapse;
-  position: relative;
+.modes .mode {
+	float: left;
+	min-height: 40px;
+	width: 150px;
+	border: thin solid rgba(0, 0, 0, 0.05);
+	border-collapse: collapse;
+	position: relative;
 }
-.mode input{
-  opacity: 0;
-  position: absolute;
+.mode input {
+	opacity: 0;
+	position: absolute;
 }
-.mode label{
-  position: relative;
-  z-index: 1;
-  font-size: 1.6em;
-  text-align: center;
-  position: absolute;
-  line-height: 40px;
-  height: 100%;
-  width: 100%;
-  top:0;
-  left:0;
-  cursor: pointer;
-}
-
-.mode input:checked +label{
-  display: inline-block;
-  background-color:deepskyblue;
-  color: #222;
+.mode label {
+	position: relative;
+	z-index: 1;
+	font-size: 1.6em;
+	text-align: center;
+	position: absolute;
+	line-height: 40px;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	cursor: pointer;
 }
 
-.mode input:checked +label[for='mode_locations'] {
-  background: #f48fb1;
-}
-.mode input:checked +label[for='mode_persons'] {
-  background: #26a69a;
+.mode input:checked + label {
+	display: inline-block;
+	background-color: deepskyblue;
+	color: #222;
 }
 
-.header h1{
-  color: #FFF;
-  float: left;
-  margin:0;
-  font-weight: 300;
+.mode input:checked + label[for='mode_locations'] {
+	background: #f48fb1;
+}
+.mode input:checked + label[for='mode_persons'] {
+	background: #26a69a;
+}
+
+.header h1 {
+	color: #fff;
+	float: left;
+	margin: 0;
+	font-weight: 300;
 }
 
 .word-item {
-  position: relative;
-  font-size: 24px;
-  padding: 4px 5px 12px 5px;
-  margin-right: 5px;
-  border-radius: 3px;
+	position: relative;
+	font-size: 24px;
+	padding: 4px 5px 12px 5px;
+	margin-right: 5px;
+	border-radius: 3px;
+	display: inline-block;
 }
-.word-item[data-mode='persons']{
-  background-color: #26a69a;
+.word-item[data-mode='persons'] {
+	background-color: #26a69a;
 }
-.word-item[data-mode='organisations']{
-  background-color: deepskyblue;
+.word-item[data-mode='organisations'] {
+	background-color: deepskyblue;
 }
-.word-item[data-mode='locations']{
-  background-color: #f48fb1;
+.word-item[data-mode='locations'] {
+	background-color: #f48fb1;
 }
 .word-item::after {
-  content: attr(data-mode);
-  position: absolute;
-  bottom: 3px;
-  left: 5px;
-  color: white;
-  text-shadow:0px 1px 1px #000;
-  font-size: 12px;
+	content: attr(data-mode);
+	position: absolute;
+	bottom: 3px;
+	left: 5px;
+	color: white;
+	text-shadow: 0px 1px 1px #000;
+	font-size: 12px;
 }
-.sentence{
-  padding-bottom: 10px;
-  margin:0;
-  font-weight: 300;
+.sentence {
+	padding-bottom: 10px;
+	margin: 0;
+	font-weight: 300;
 }
-.sentence-wrap{
-  background-color: #fcfcfc;
+.sentence-wrap {
+	background-color: #fcfcfc;
 }
-.sentence-wrap:nth-child(even){
-  background-color: #fff;
+.sentence-wrap:nth-child(even) {
+	background-color: #fff;
 }
 .sentences-container {
-  width: 1200px;
-  margin:0 auto;
-  margin-top: 100px;
-  overflow-x: hidden;
-}
-
-
-.ReactVirtualized__List {
-    padding: 10px 30px;
+	width: 1200px;
+	margin: 0 auto;
+	margin-top: 100px;
+	box-sizing: content-box;
 }
 
 /* Hide input*/
 .inputfile {
-  margin-top: 10px;
-  cursor: pointer;
-  height: 40px;
+	margin-top: 10px;
+	cursor: pointer;
+	height: 40px;
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
@@ -161,17 +158,17 @@ input[type='file'] {
 }
 
 .inputfile + label {
-    cursor: pointer;
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
+	cursor: pointer;
+	font-size: 1.25em;
+	font-weight: 700;
+	color: white;
 }
 
 .downloadBtn {
-    cursor: pointer;
-    font-size: 1.25em;
-    font-weight: 700;
-    color: black;
+	cursor: pointer;
+	font-size: 1.25em;
+	font-weight: 700;
+	color: black;
 }
 
 .inputfile:focus + label {
@@ -183,43 +180,40 @@ input[type='file'] {
 	pointer-events: none;
 }
 
-
 .downloadBtn {
 	outline: 1px dotted #000;
 }
 
-
-
 .inputfile + label {
-  padding: 7px 15px;
-  margin: 50px 0 0 0;
-  background-color: transparent;
-  border-radius: 2px;
-  border: 1px solid white;
-  transition: .2s;
+	padding: 7px 15px;
+	margin: 50px 0 0 0;
+	background-color: transparent;
+	border-radius: 2px;
+	border: 1px solid white;
+	transition: .2s;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-  color: #26a69a;
-  border-color: inherit;
-  outline: 0;
+	color: #26a69a;
+	border-color: inherit;
+	outline: 0;
 }
 
 .downloadBtn {
-  font-size: 2em;
-  font-family: 'Reenie Beanie', cursive;
-  padding: 15px 25px;
-  margin: 12px 0 0 20px;
-  background-color: transparent;
-  border-radius: 2px;
-  border: 1px solid black;
-  transition: .2s;
+	font-size: 2em;
+	font-family: 'Reenie Beanie', cursive;
+	padding: 15px 25px;
+	margin: 12px 0 0 20px;
+	background-color: transparent;
+	border-radius: 2px;
+	border: 1px solid black;
+	transition: .2s;
 }
 
 .downloadBtn:focus,
 .downloadBtn:hover {
-  color: #26a69a;
-  border-color: inherit;
-  outline: 0;
+	color: #26a69a;
+	border-color: inherit;
+	outline: 0;
 }

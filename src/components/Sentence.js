@@ -1,6 +1,7 @@
 import React from 'react'
 import Word from './Word'
 import { each } from 'lodash'
+import { wordPosToIndex } from '../utils'
 
 import config from '../config'
 
@@ -13,19 +14,15 @@ export default function Sentence(props) {
 		return null
 	}
 
-	const _words = text.split(' ')
+	const arrayOfWords = text.split(' ')
 
-	// console.log(props);
-
-	const clickatSentence = function(word, sentenceId, doUnselectWord) {
-		clickatSentences(word, sentenceId, doUnselectWord)
-	}
-
-	function isWordInBucket(_word, bucket) {
+	function isWordInBucket({ word, pos, allWordsInBucket, sentence }) {
 		var isWordInBucket = false
-		each(bucket, function({ word }) {
-			console.log(arguments)
-			if (word === _word) {
+		var wordStartIndex = wordPosToIndex(sentence, pos)
+
+		each(allWordsInBucket, function({ word: selectedWord, indices }) {
+			// position of the word should match with the indices of the selected word
+			if (word === selectedWord && wordStartIndex === indices[0]) {
 				isWordInBucket = true
 			}
 		})
@@ -37,11 +34,20 @@ export default function Sentence(props) {
 	return (
 		<div className="row text-left sentence-wrap">
 			<h1 className="col-md-12 sentence">
-				{_words.map(function(_word, ind) {
-					var clicked = false, belongsToBucket = ''
+				{arrayOfWords.map(function(word, ind) {
+					var clicked = false,
+						belongsToBucket = ''
 					each(bucketNames, function(bucketName) {
 						var bucketData = props[bucketName]
-						if (bucketData.length > 0 && isWordInBucket(_word, bucketData)) {
+						if (
+							bucketData.length > 0 &&
+							isWordInBucket({
+								word,
+								pos: ind,
+								allWordsInBucket: bucketData,
+								sentence: text
+							})
+						) {
 							clicked = true
 							belongsToBucket = bucketName
 						}
@@ -51,9 +57,10 @@ export default function Sentence(props) {
 						<Word
 							clicked={clicked}
 							mode={belongsToBucket}
+							index={ind}
 							key={ind}
-							word={_word}
-							wordClick={clickatSentence}
+							word={word}
+							wordClick={clickatSentences}
 							{...props}
 						/>
 					)
