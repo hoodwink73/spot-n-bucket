@@ -32,7 +32,7 @@ export default function Sentence(props) {
 
 	var bucketNames = Object.keys(buckets)
 	return (
-		<div className="row text-left sentence-wrap">
+		<div className="row text-left">
 			<h1 className="col-md-12 sentence">
 				{arrayOfWords.map(function(word, ind) {
 					var clicked = false,
