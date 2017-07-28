@@ -118,7 +118,7 @@ class App extends Component {
 		}
 
 		function findPreviousWord(sentenceText, word) {
-			// assuming the word is padded by only onse space
+			// assuming the word is padded by only one space
 			var endIndexOfPreviousWord = sentenceText.indexOf(word) - 2
 			var startIndexOfPreviousWord =
 				sentenceText.lastIndexOf(' ', endIndexOfPreviousWord) + 1
