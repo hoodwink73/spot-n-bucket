@@ -5,6 +5,9 @@ html,
 body {
 	font-family: 'Dosis', sans-serif;
 	font-weight: 300;
+	overflow: hidden;
+	margin:0;
+	padding: 0;
 }
 span {
 	cursor: pointer;
@@ -130,17 +133,18 @@ input[type='file'] {
 }
 .sentence {
 	padding-bottom: 10px;
-	margin: 0;
+	margin: 10px 0px;
 	font-weight: 300;
 }
 .sentence-wrap {
-	background-color: #fcfcfc;
+	background-color: #FAFAFA;
 }
 .sentence-wrap:nth-child(even) {
 	background-color: #fff;
 }
 .sentences-container {
 	width: 1200px;
+	overflow: hidden;
 	margin: 0 auto;
 	margin-top: 100px;
 	box-sizing: content-box;
