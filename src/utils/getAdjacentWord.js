@@ -13,15 +13,14 @@ function getNextWordIndices({ sentence, wordBoundaryIndex }) {
 }
 
 function getPreviousWordIndices({ sentence, wordBoundaryIndex }) {
-	var previousSeperatorIndex = sentence.indexOf(
-		SEPERATOR,
-		wordBoundaryIndex + 2
-	)
+	var str = sentence.substr(0,wordBoundaryIndex-1)
+	var previousWordStartIndex = str.lastIndexOf(SEPERATOR)+1
+	var wordsArray =str.split(SEPERATOR)
+	var previousWord =wordsArray[wordsArray.length-1]
+	var previousWordEndIndex =previousWordStartIndex+previousWord.length
 	return [
-		// if the seperator is not found trailing the concerned word
-		// then the previous word must be the first word
-		previousSeperatorIndex === -1 ? 0 : previousSeperatorIndex,
-		wordBoundaryIndex - 2
+		previousWordStartIndex,
+		previousWordEndIndex
 	]
 }
 

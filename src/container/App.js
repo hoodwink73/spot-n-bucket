@@ -11,6 +11,7 @@ import { parse } from 'papaparse'
 import fileDownload from 'react-file-download'
 import localForage from 'localforage'
 import { wordPosToIndex } from '../utils'
+import getAdjacentWords from '../utils/getAdjacentWord'
 
 const makeSentencesStateReady = function(sentences) {
 	var data = {}
@@ -117,18 +118,6 @@ class App extends Component {
 			]
 		}
 
-		function findPreviousWord(sentenceText, word) {
-			// assuming the word is padded by only one space
-			var endIndexOfPreviousWord = sentenceText.indexOf(word) - 2
-			var startIndexOfPreviousWord =
-				sentenceText.lastIndexOf(' ', endIndexOfPreviousWord) + 1
-
-			return sentenceText.substring(
-				startIndexOfPreviousWord,
-				endIndexOfPreviousWord + 1
-			)
-		}
-
 		if (doUnselectWord) {
 			// `remove` removes elements in-place from the
 			// array on which it is operating
@@ -136,11 +125,7 @@ class App extends Component {
 				return value.word === word
 			})
 		} else {
-			sentence = {
-				...sentence,
-				[currentMode]: [
-					...sentence[currentMode],
-					{
+			let wordDetails ={
 						word,
 						indices: calculateIndicesOfWord({
 							sentence: sentence.text,
@@ -148,7 +133,20 @@ class App extends Component {
 							pos
 						})
 					}
-				]
+			if(isMetaKeyPressed){
+				let adj = getAdjacentWords({sentence:sentence.text, word:wordDetails})
+				console.log(adj)
+				console.log(sentence.text.substring(adj.previous[0],adj.previous[1]))
+				console.log(sentence.text.substring(adj.next[0],adj.next[1]))
+			}
+			else{
+				sentence = {
+					...sentence,
+					[currentMode]: [
+						...sentence[currentMode],
+						wordDetails
+					]
+				}
 			}
 		}
 
