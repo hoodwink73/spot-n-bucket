@@ -5,7 +5,7 @@ function getNextWordIndices({ sentence, wordBoundaryIndex }) {
 	var nextSeperatorIndex = sentence.indexOf(SEPERATOR, wordBoundaryIndex + 2)
 
 	return [
-		wordBoundaryIndex + 2,
+		wordBoundaryIndex + 1,
 		// if the seperator is not found following the concerned word
 		// then the next word must be the last word
 		nextSeperatorIndex === -1 ? sentence.length - 1 : nextSeperatorIndex

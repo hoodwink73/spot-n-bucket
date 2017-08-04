@@ -114,8 +114,28 @@ class App extends Component {
 			var wordStartIndex = wordPosToIndex(sentence, pos) - 1
 			return [
 				sentence.indexOf(word, wordStartIndex - 1),
-				sentence.indexOf(word, wordStartIndex - 1) + word.length - 1
+				sentence.indexOf(word, wordStartIndex - 1) + word.length
 			]
+		}
+
+		function collateWords (sentence, adjacentWord, currentWord, direction) {
+			each(sentence[currentMode], function(obj,ind) {
+				if(obj.indices.toString() === adjacentWord.toString() ) {
+					sentence[currentMode].pop(adjacentWord)
+					if(direction == 'previous') {
+						currentWord.indices[0] = adjacentWord[0]
+						let temp = sentence.text.substring(adjacentWord[0],adjacentWord[1])
+						currentWord.word = temp+' '+currentWord.word
+					}
+					else if(direction == 'next') {
+						currentWord.indices[1] = adjacentWord[1]
+						let temp = sentence.text.substring(adjacentWord[0],adjacentWord[1])
+						currentWord.word = currentWord.word+' '+temp
+					}
+					sentence[currentMode].push(currentWord)
+				}
+				})
+			return sentence
 		}
 
 		if (doUnselectWord) {
@@ -135,9 +155,23 @@ class App extends Component {
 					}
 			if(isMetaKeyPressed){
 				let adj = getAdjacentWords({sentence:sentence.text, word:wordDetails})
-				console.log(adj)
-				console.log(sentence.text.substring(adj.previous[0],adj.previous[1]))
-				console.log(sentence.text.substring(adj.next[0],adj.next[1]))
+				const newSentence = null
+				each(sentence[currentMode], function(obj,index){
+					if(adj.previous.toString() === obj.indices.toString()) {
+						newSentence=collateWords(sentence,adj.previous,wordDetails,'previous')
+					}
+					if(adj.next.toString() === obj.indices.toString()) {
+						newSentence=collateWords(sentence,adj.next,wordDetails,'next')
+					}
+				})
+				sentence = {
+					...newSentence,
+					[currentMode]: [
+						...newSentence[currentMode],
+						wordDetails
+					]
+				}
+
 			}
 			else{
 				sentence = {
