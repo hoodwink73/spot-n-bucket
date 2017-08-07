@@ -9,13 +9,34 @@ var { buckets } = config
 
 export default function Sentence(props) {
 	var { text, clickatSentences } = props
+	function spreadWords () {
+		each(buckets, (mode) => {
+			var modename =mode.title.toLowerCase()
+			each(props[modename], (word) =>{
+				var wordWithSpace=text.substring(word.indices[0],word.indices[1])
+				var wordWithoutSpace =wordWithSpace.replace(' ', '¦')
+				text=text.replace(wordWithSpace,wordWithoutSpace)
+			})
+		})
+		return text.split(' ')
+	}
+
 
 	if (text === undefined || text === null || text === '') {
 		return null
 	}
-
-	const arrayOfWords = text.split(' ')
-
+	var _counter = 0
+	each(buckets, (mode) => {
+		var modename =mode.title.toLowerCase()
+		props[modename].length !== 0 ? _counter++ : null
+	})
+	let arrayOfWords =''
+	if(_counter >0) {
+		arrayOfWords = spreadWords(props)
+	}
+	else {
+		arrayOfWords = text.split(' ')
+	}
 	function isWordInBucket({ word, pos, allWordsInBucket, sentence }) {
 		var isWordInBucket = false
 		var wordStartIndex = wordPosToIndex(sentence, pos)

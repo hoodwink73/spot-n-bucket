@@ -15,7 +15,7 @@ export default class Word extends Component {
 	render() {
 		var { word, sentenceId, wordClick, getCurrentMode, index } = this.props
 		var selectedStyle = this.props.clicked ? { fontSize: '25px' } : {}
-
+		word = word.replace('¦',' ')
 		return (
 			<span
 				className="word-item"

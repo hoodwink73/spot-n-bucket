@@ -125,12 +125,12 @@ class App extends Component {
 					if(direction == 'previous') {
 						currentWord.indices[0] = adjacentWord[0]
 						let temp = sentence.text.substring(adjacentWord[0],adjacentWord[1])
-						currentWord.word = temp+' '+currentWord.word
+						currentWord.word = temp+'¦'+currentWord.word
 					}
 					else if(direction == 'next') {
 						currentWord.indices[1] = adjacentWord[1]
 						let temp = sentence.text.substring(adjacentWord[0],adjacentWord[1])
-						currentWord.word = currentWord.word+' '+temp
+						currentWord.word = currentWord.word+'¦'+temp
 					}
 					sentence[currentMode].push(currentWord)
 				}
@@ -141,6 +141,7 @@ class App extends Component {
 		if (doUnselectWord) {
 			// `remove` removes elements in-place from the
 			// array on which it is operating
+			word=word.replace(' ','¦')
 			remove(sentence[currentMode], function(value) {
 				return value.word === word
 			})
@@ -262,6 +263,7 @@ class App extends Component {
 
 	downloadFile() {
 		var data = JSON.stringify(this.state.data)
+		data=data.replace(/¦/g,' ')
 		fileDownload(data, `spot-n-bucket.${uuid.v4()}.json`)
 	}
 
